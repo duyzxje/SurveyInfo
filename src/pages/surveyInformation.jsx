@@ -159,16 +159,16 @@ function Survey() {
                                 <label htmlFor="city">Tỉnh/Thành Phố</label>
                                 <select id="provinceId" className="form-control" value={formData.provinceId} onChange={handleChange} required>
                                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                                    <option value="1">HCM</option>
-                                    <option value="2">HN</option>
+                                    <option value={1}>HCM</option>
+                                    <option value={2}>HN</option>
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label htmlFor="subDistrict">Xã/phường/thị trấn</label>
                                 <select id="wardId" className="form-control" value={formData.wardId} onChange={handleChange} required>
                                     <option value="">-- Chọn xã/phường/thị trấn --</option>
-                                    <option value="12">Phường 12</option>
-                                    <option value="15">Phường 15</option>
+                                    <option value={12}>Phường 12</option>
+                                    <option value={15}>Phường 15</option>
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
@@ -184,8 +184,8 @@ function Survey() {
                                 <label htmlFor="purposeLoan">Mục đích vay:</label>
                                 <select id="purposeLoan" className="form-control" value={formData.purposeLoan} onChange={handleChange} required>
                                     <option value="">-- Chọn mục đích vay --</option>
-                                    <option value="1">Mua nhà</option>
-                                    <option value="2">Mua xe</option>
+                                    <option value={1}>Mua nhà</option>
+                                    <option value={2}>Mua xe</option>
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
