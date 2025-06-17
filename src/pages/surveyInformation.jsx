@@ -7,22 +7,22 @@ function Survey() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        identify: "string",
-        fullname: "string",
-        phone: "string",
-        provinceId: 0,
-        wardId: 0,
-        address: "string",
-        purposeLoan: "string",
-        description: "string",
-        amountPurpose: 0,
-        amountHave: 0,
-        amountSuggest: 0,
-        voluntarySaving: 0,
-        incomeSalary: 0,
-        incomeOther: 0,
-        cost: 0,
-        districtId: 0
+        identify: "",
+        fullname: "",
+        phone: "",
+        provinceId: "",
+        wardId: "",
+        address: "",
+        purposeLoan: "",
+        description: "",
+        amountPurpose: "",
+        amountHave: "",
+        amountSuggest: "",
+        voluntarySaving: "",
+        incomeSalary: "",
+        incomeOther: "",
+        cost: "",
+        districtId: ""
 
     });
 
@@ -35,8 +35,8 @@ function Survey() {
 
         try {
             const res = await axios.post("https://api_dev12.cep.org.vn:8456/api/Loans/SurveyInfo", formData);
-            navigate(`/success`, { state: formData });
             alert("Form submitted successfully!");
+            navigate(`/success`, { state: formData });
             console.log(res.data);
         } catch (err) {
             console.error(err);
