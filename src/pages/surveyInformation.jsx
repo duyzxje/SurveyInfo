@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +25,43 @@ function Survey() {
 
     });
 
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+
+    // Fetch provinces list once
+    useEffect(() => {
+        const fetchProvinces = async () => {
+            try {
+                const res = await axios.get("https://provinces.open-api.vn/api/?depth=3");
+                setProvinces(res.data);
+            } catch (err) {
+                console.error("Cannot fetch VN provinces", err);
+            }
+        };
+        fetchProvinces();
+    }, []);
+
+    const handleProvinceChange = (e) => {
+        const code = e.target.value;
+        const province = provinces.find((p) => p.code.toString() === code);
+        setDistricts(province ? province.districts : []);
+        setWards([]);
+        setFormData({ ...formData, provinceId: code, districtId: "", wardId: "" });
+    };
+
+    const handleDistrictChange = (e) => {
+        const code = e.target.value;
+        const district = districts.find((d) => d.code.toString() === code);
+        setWards(district ? district.wards : []);
+        setFormData({ ...formData, districtId: code, wardId: "" });
+    };
+
+    const handleWardChange = (e) => {
+        const code = e.target.value;
+        setFormData({ ...formData, wardId: code });
+    };
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
@@ -40,9 +76,9 @@ function Survey() {
 
         setIsSubmitting(true);
         try {
-            const res = await axios.post("https://api_dev12.cep.org.vn:8456/api/Loans/SurveyInfo", formData);
+            const res = await axios.post("http://localhost:3001/api/surveys", formData);
             alert("Form submitted successfully!");
-            navigate(`/success`, { state: formData });
+            navigate(`/success/${res.data.id}`);
             console.log(res.data);
         } catch (err) {
             console.error(err);
@@ -156,19 +192,30 @@ function Survey() {
                                 {phoneError && <small className="text-danger">{phoneError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="city">Tỉnh/Thành Phố</label>
-                                <select id="provinceId" className="form-control" value={formData.provinceId} onChange={handleChange} required>
+                                <label htmlFor="provinceId">Tỉnh/Thành Phố</label>
+                                <select id="provinceId" className="form-control" value={formData.provinceId} onChange={handleProvinceChange} required>
                                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                                    <option value={1}>HCM</option>
-                                    <option value={2}>HN</option>
+                                    {provinces.map((p) => (
+                                        <option key={p.code} value={p.code}>{p.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="subDistrict">Xã/phường/thị trấn</label>
-                                <select id="wardId" className="form-control" value={formData.wardId} onChange={handleChange} required>
-                                    <option value="">-- Chọn xã/phường/thị trấn --</option>
-                                    <option value={12}>Phường 12</option>
-                                    <option value={15}>Phường 15</option>
+                                <label htmlFor="districtId">Quận/Huyện</label>
+                                <select id="districtId" className="form-control" value={formData.districtId} onChange={handleDistrictChange} required disabled={!districts.length} >
+                                    <option value="">-- Chọn Quận/Huyện --</option>
+                                    {districts.map((d) => (
+                                        <option key={d.code} value={d.code}>{d.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="col-12 col-md-6 col-lg-4 mb-3">
+                                <label htmlFor="wardId">Xã/Phường/Thị trấn</label>
+                                <select id="wardId" className="form-control" value={formData.wardId} onChange={handleWardChange} required disabled={!wards.length}>
+                                    <option value="">-- Chọn Xã/Phường/Thị trấn --</option>
+                                    {wards.map((w) => (
+                                        <option key={w.code} value={w.code}>{w.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
@@ -186,6 +233,8 @@ function Survey() {
                                     <option value="">-- Chọn mục đích vay --</option>
                                     <option value={1}>Mua nhà</option>
                                     <option value={2}>Mua xe</option>
+                                    <option value={3}>Mua sắm</option>
+                                    <option value={4}>Đầu tư</option>
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
