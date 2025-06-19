@@ -6,7 +6,7 @@ function Header() {
         <header>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
-                    <div className="d-flex align-items-center ms-auto">
+                    <div className="d-flex align-items-center">
                         <Link className="navbar-brand d-flex align-items-center" to="/">
                             <img src="/assets/img/logo.png" alt="Logo" height="80" className="me-2" />
                         </Link>

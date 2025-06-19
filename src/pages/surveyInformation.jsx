@@ -93,7 +93,9 @@ function Survey() {
         handleChange(e);
         const identify = e.target.value;
         // Validate realtime
-        if (identify.length > 0 && identify.length > 12) {
+        if (identify.length > 0 && identify[0] != 0) {
+            setIdentifyError('Số đầu phải là số 0')
+        } else if (identify.length > 0 && identify.length > 12) {
             setIdentifyError('Lớn hơn 12 số,CCCD chỉ được phép 12 số');
         } else if (identify.length > 0 && identify.length < 12) {
             setIdentifyError('CCCD là 12 số');

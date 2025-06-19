@@ -72,24 +72,34 @@ function Success() {
     }
     return (
         <div className="container mt-4">
-            <h2>Gửi thành công!</h2>
-            <p>Họ tên: {data.fullname}</p>
-            <p>CCCD: {data.identify}</p>
-            <p>Điện thoại: {data.phone}</p>
-            <p>Tỉnh/TP: {getProvinceName(data.provinceId)}</p>
-            <p>Quận/Huyện: {getDistrictName(data.provinceId, data.districtId)}</p>
-            <p>Xã/Phường: {getWardName(data.provinceId, data.districtId, data.wardId)}</p>
-            <p>Địa chỉ: {data.address}</p>
-            <p>Mục đích vay: {getPurposeLoan(data.purposeLoan)}</p>
-            <p>Mô tả: {data.description}</p>
-            <p>Số tiền cần cho mục đích: {formatNumber(data.amountPurpose)} đ</p>
-            <p>Số tiền cần vay: {formatNumber(data.amountSuggest)} đ</p>
-            <p>Số tiền đã có: {formatNumber(data.amountHave)} đ</p>
-            <p>Tiết kiệm tự nguyện: {formatNumber(data.voluntarySaving)} đ</p>
-            <p>Thu nhập khách hàng: {formatNumber(data.incomeSalary)} đ</p>
-            <p>Thu nhập khác: {formatNumber(data.incomeOther)} đ</p>
-            <p>Tổng chi phí: {formatNumber(data.cost)} đ</p>
-            <button className="btn btn-success" onClick={() => navigate('/survey')}>Gửi mới</button>
+            <h2 className="mb-4 text-success text-center">Gửi thành công!</h2>
+            <div className="row justify-content-center">
+                <div className="col-md-6 col-lg-4 border border-success p-4 mb-4 me-2 rounded-3 bg-success-subtle">
+                    <h4 className="mb-4">Thông tin cá nhân</h4>
+                    <p>Họ tên: {data.fullname}</p>
+                    <p>CCCD: {data.identify}</p>
+                    <p>Điện thoại: {data.phone}</p>
+                    <p>Tỉnh/TP: {getProvinceName(data.provinceId)}</p>
+                    <p>Quận/Huyện: {getDistrictName(data.provinceId, data.districtId)}</p>
+                    <p>Xã/Phường: {getWardName(data.provinceId, data.districtId, data.wardId)}</p>
+                    <p>Địa chỉ: {data.address}</p>
+                </div>
+                <div className="col-md-6 col-lg-4 border border-success p-4 mb-4 ms-2 rounded-3 bg-success-subtle">
+                    <h4 className="mb-4">Thông tin khảo sát</h4>
+                    <p>Mục đích vay: {getPurposeLoan(data.purposeLoan)}</p>
+                    <p>Mô tả: {data.description}</p>
+                    <p>Số tiền cần cho mục đích: {formatNumber(data.amountPurpose)} đ</p>
+                    <p>Số tiền cần vay: {formatNumber(data.amountSuggest)} đ</p>
+                    <p>Số tiền đã có: {formatNumber(data.amountHave)} đ</p>
+                    <p>Tiết kiệm tự nguyện: {formatNumber(data.voluntarySaving)} đ</p>
+                    <p>Thu nhập khách hàng: {formatNumber(data.incomeSalary)} đ</p>
+                    <p>Thu nhập khác: {formatNumber(data.incomeOther)} đ</p>
+                    <p>Tổng chi phí: {formatNumber(data.cost)} đ</p>
+                </div>
+            </div>
+            <div className="d-flex justify-content-center">
+                <button className="btn btn-success mb-4" onClick={() => navigate('/survey')}>Gửi mới</button>
+            </div>
         </div>
     );
 }
