@@ -167,13 +167,12 @@ function Survey() {
         <>
             {isSubmitting && <LoadingOverlay />}
             <div className="container mt-4">
-                <div className="d-flex justify-content-center"><img src="/assets/img/logo.png" alt="Logo" /></div>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center mb-4">
                     <h1><strong>THÔNG TIN KHẢO SÁT</strong></h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group border border-dark rounded p-4 mb-4">
-                        <h2>Thông tin cá nhân</h2>
+                        <h2 className="mb-4">Thông tin cá nhân</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label htmlFor="identify">CCCD:</label>
@@ -225,7 +224,7 @@ function Survey() {
                         </div>
                     </div>
                     <div className="form-group border border-dark rounded p-4 mb-4">
-                        <h2>Thông tin khảo sát</h2>
+                        <h2 className="mb-4">Thông tin khảo sát</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label htmlFor="purposeLoan">Mục đích vay:</label>
@@ -300,7 +299,7 @@ function Survey() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-center">
-                        <button type="submit" className="btn btn-primary btn-lg" disabled={isSubmitting}>
+                        <button type="submit" className="btn btn-primary btn-lg mb-4" disabled={isSubmitting}>
                             {isSubmitting && (
                                 <span
                                     className="spinner-border spinner-border-sm me-2"
