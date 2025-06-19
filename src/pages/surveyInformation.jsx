@@ -76,7 +76,7 @@ function Survey() {
 
         setIsSubmitting(true);
         try {
-            const res = await axios.post("http://localhost:3001/api/surveys", formData);
+            const res = await axios.post("https://api_dev12.cep.org.vn:8456/api/Loans/SurveyInfo", formData);
             alert("Form submitted successfully!");
             navigate(`/success/${res.data.id}`);
             console.log(res.data);

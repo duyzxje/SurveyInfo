@@ -12,7 +12,7 @@ function Success() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`http://localhost:3001/api/surveys/${id}`);
+                const res = await axios.get(`https://api_dev12.cep.org.vn:8456/api/Loans/SurveyInfo/${id}`);
                 setData(res.data);
             } catch (err) {
                 console.error(err);
