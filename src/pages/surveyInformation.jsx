@@ -177,24 +177,24 @@ function Survey() {
                         <h2 className="mb-4">Thông tin cá nhân</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="identify">CCCD:</label>
-                                <input type="number" min={0} className="form-control mb-2 " id="identify" value={formData.identify}
+                                <label className="fs-4" htmlFor="identify">CCCD:</label>
+                                <input type="number" min={0} className="form-control fs-4 mb-2 " id="identify" value={formData.identify}
                                     onChange={handleIdentifyChange} required />
-                                {identifyError && <small className="text-danger">{identifyError}</small>}
+                                {identifyError && <small className="text-danger fs-5">{identifyError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="fullname">Họ và tên:</label>
-                                <input type="text" className="form-control mb-2" id="fullname" value={formData.fullname} onChange={handleChange} required />
+                                <label className="fs-4" htmlFor="fullname">Họ và tên:</label>
+                                <input type="text" className="form-control fs-4 mb-2" id="fullname" value={formData.fullname} onChange={handleChange} required />
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="phone">Số điện thoại:</label>
-                                <input type="number" min={0} className="form-control mb-2" id="phone" value={formData.phone}
+                                <label className="fs-4" htmlFor="phone">Số điện thoại:</label>
+                                <input type="number" min={0} className="form-control fs-4 mb-2" id="phone" value={formData.phone}
                                     onChange={handlePhoneChange} required />
-                                {phoneError && <small className="text-danger">{phoneError}</small>}
+                                {phoneError && <small className="text-danger fs-5">{phoneError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="provinceId">Tỉnh/Thành Phố</label>
-                                <select id="provinceId" className="form-control" value={formData.provinceId} onChange={handleProvinceChange} required>
+                                <label className="fs-4" htmlFor="provinceId">Tỉnh/Thành Phố:</label>
+                                <select id="provinceId" className="form-control fs-4" value={formData.provinceId} onChange={handleProvinceChange} required>
                                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
                                     {provinces.map((p) => (
                                         <option key={p.code} value={p.code}>{p.name}</option>
@@ -202,8 +202,8 @@ function Survey() {
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="districtId">Quận/Huyện</label>
-                                <select id="districtId" className="form-control" value={formData.districtId} onChange={handleDistrictChange} required disabled={!districts.length} >
+                                <label className="fs-4" htmlFor="districtId">Quận/Huyện:</label>
+                                <select id="districtId" className="form-control fs-4" value={formData.districtId} onChange={handleDistrictChange} required disabled={!districts.length} >
                                     <option value="">-- Chọn Quận/Huyện --</option>
                                     {districts.map((d) => (
                                         <option key={d.code} value={d.code}>{d.name}</option>
@@ -211,8 +211,8 @@ function Survey() {
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="wardId">Xã/Phường/Thị trấn</label>
-                                <select id="wardId" className="form-control" value={formData.wardId} onChange={handleWardChange} required disabled={!wards.length}>
+                                <label className="fs-4" htmlFor="wardId">Xã/Phường/Thị trấn:</label>
+                                <select id="wardId" className="form-control fs-4 fs-5" value={formData.wardId} onChange={handleWardChange} required disabled={!wards.length}>
                                     <option value="">-- Chọn Xã/Phường/Thị trấn --</option>
                                     {wards.map((w) => (
                                         <option key={w.code} value={w.code}>{w.name}</option>
@@ -220,8 +220,8 @@ function Survey() {
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="address">Địa chỉ:</label>
-                                <input type="text" className="form-control mb-2" id="address" value={formData.address} onChange={handleChange} required />
+                                <label className="fs-4" htmlFor="address">Địa chỉ:</label>
+                                <input type="text" className="form-control fs-4 mb-2" id="address" value={formData.address} onChange={handleChange} required />
                             </div>
                         </div>
                     </div>
@@ -229,8 +229,8 @@ function Survey() {
                         <h2 className="mb-4">Thông tin khảo sát</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="purposeLoan">Mục đích vay:</label>
-                                <select id="purposeLoan" className="form-control" value={formData.purposeLoan} onChange={handleChange} required>
+                                <label className="fs-4" htmlFor="purposeLoan">Mục đích vay:</label>
+                                <select id="purposeLoan" className="form-control fs-4" value={formData.purposeLoan} onChange={handleChange} required>
                                     <option value="">-- Chọn mục đích vay --</option>
                                     <option value={1}>Mua nhà</option>
                                     <option value={2}>Mua xe</option>
@@ -239,64 +239,64 @@ function Survey() {
                                 </select>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="description">Mô tả:</label>
-                                <input type="text" className="form-control mb-2" id="description" value={formData.description} onChange={handleChange} required />
+                                <label className="fs-4" htmlFor="description">Mô tả:</label>
+                                <input type="text" className="form-control fs-4 mb-2" id="description" value={formData.description} onChange={handleChange} required />
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="amountPurpose" className="form-label">Số tiền cần cho mục đích:</label>
+                                <label className="fs-4" htmlFor="amountPurpose">Số tiền cần cho mục đích:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="amountPurpose" value={formatNumber(formData.amountPurpose)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountPurpose" value={formatNumber(formData.amountPurpose)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {AmountSuggestError && <small className="text-danger">{AmountSuggestError}</small>}
+                                {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="amountHave">Số tiền đã có:</label>
+                                <label className="fs-4" htmlFor="amountHave">Số tiền đã có:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="amountHave" value={formatNumber(formData.amountHave)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountHave" value={formatNumber(formData.amountHave)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {AmountSuggestError && <small className="text-danger">{AmountSuggestError}</small>}
+                                {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="amountSuggest">Số tiền đề nghị vay:</label>
+                                <label className="fs-4" htmlFor="amountSuggest">Số tiền đề nghị vay:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="amountSuggest" value={formatNumber(formData.amountSuggest)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountSuggest" value={formatNumber(formData.amountSuggest)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {AmountSuggestError && <small className="text-danger">{AmountSuggestError}</small>}
+                                {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="voluntarySaving">Tiết kiệm tự nguyện:</label>
+                                <label className="fs-4" htmlFor="voluntarySaving">Tiết kiệm tự nguyện:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="voluntarySaving" value={formatNumber(formData.voluntarySaving)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="voluntarySaving" value={formatNumber(formData.voluntarySaving)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {VoluntarySavingError && <small className="text-danger">{VoluntarySavingError}</small>}
+                                {VoluntarySavingError && <small className="text-danger fs-5">{VoluntarySavingError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="incomeSalary">Thu nhập khách hàng:</label>
+                                <label className="fs-4" htmlFor="incomeSalary">Thu nhập khách hàng:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="incomeSalary" value={formatNumber(formData.incomeSalary)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="incomeSalary" value={formatNumber(formData.incomeSalary)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {IncomeError && <small className="text-danger">{IncomeError}</small>}
+                                {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="incomeOther">Thu nhập khác:</label>
+                                <label className="fs-4" htmlFor="incomeOther">Thu nhập khác:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="incomeOther" value={formatNumber(formData.incomeOther)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="incomeOther" value={formatNumber(formData.incomeOther)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {IncomeError && <small className="text-danger">{IncomeError}</small>}
+                                {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
-                                <label htmlFor="cost">Tổng chi phí:</label>
+                                <label className="fs-4" htmlFor="cost">Tổng chi phí:</label>
                                 <div className="input-group">
-                                    <input type="text" min="0" className="form-control text-end" id="cost" value={formatNumber(formData.cost)} onChange={handleMoneyInput} required />
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="cost" value={formatNumber(formData.cost)} onChange={handleMoneyInput} required />
                                     <span className="input-group-text">₫</span>
                                 </div>
-                                {IncomeError && <small className="text-danger">{IncomeError}</small>}
+                                {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
                         </div>
                     </div>

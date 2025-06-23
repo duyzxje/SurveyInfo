@@ -98,7 +98,7 @@ function Success() {
                 </div>
             </div>
             <div className="d-flex justify-content-center">
-                <button className="btn btn-success mb-4" onClick={() => navigate('/survey')}>Gửi mới</button>
+                <button className="btn btn-success mb-4" onClick={() => navigate('/')}>Gửi mới</button>
             </div>
         </div>
     );

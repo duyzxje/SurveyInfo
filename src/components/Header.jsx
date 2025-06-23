@@ -17,11 +17,11 @@ function Header() {
                     <div className="collapse navbar-collapse" id="cepNav">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Trang chủ</Link>
+                                <Link className="nav-link fs-5" to="/">Khảo sát</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link className="nav-link" to="/survey">Khảo sát</Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>
