@@ -9,6 +9,7 @@ function SurveyList() {
     const [editingSurvey, setEditingSurvey] = useState(null);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedFile, setSelectedFile] = useState("");
 
     const fetchData = async () => {
         setLoading(true);
@@ -56,6 +57,7 @@ function SurveyList() {
     const handleImportExcel = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
+        const fileName = file.name;
         const reader = new FileReader();
         reader.onload = async (evt) => {
             const bstr = evt.target.result;
@@ -65,11 +67,16 @@ function SurveyList() {
             const excelData = XLSX.utils.sheet_to_json(ws, { defval: "" });
             let success = 0, fail = 0;
             for (const row of excelData) {
+                if (!row.identify || !row.fullname || !row.provinceId || !row.districtId || !row.wardId) continue;
+                const payload = {
+                    ...row,
+                    importFileName: fileName
+                };
                 try {
                     await fetch("http://localhost:3001/api/surveys", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(row),
+                        body: JSON.stringify(payload),
                     });
                     success++;
                 } catch (err) {
@@ -81,6 +88,9 @@ function SurveyList() {
         };
         reader.readAsBinaryString(file);
     };
+
+    const fileNames = Array.from(new Set(data.map(item => item.importFileName).filter(Boolean)));
+    const filteredData = selectedFile ? data.filter(item => item.importFileName === selectedFile) : data;
 
     const columns = [
         {
@@ -183,15 +193,28 @@ function SurveyList() {
             <div className="container mt-4">
                 <div className="d-flex justify-content-between mb-4 header-color align-items-center">
                     <h1><strong>DANH SÁCH KHẢO SÁT</strong></h1>
-                    <input
-                        type="file"
-                        accept=".xlsx, .xls"
-                        onChange={handleImportExcel}
-                        className="form-control"
-                        style={{ maxWidth: 300 }}
-                    />
+                    <div className="d-flex gap-2 align-items-center">
+                        <input
+                            type="file"
+                            accept=".xlsx, .xls"
+                            onChange={handleImportExcel}
+                            className="form-control"
+                            style={{ maxWidth: 300 }}
+                        />
+                        <select
+                            className="form-select ms-2"
+                            style={{ minWidth: 180 }}
+                            value={selectedFile}
+                            onChange={e => setSelectedFile(e.target.value)}
+                        >
+                            <option value="">-- Tất cả file --</option>
+                            {fileNames.map(name => (
+                                <option key={name} value={name}>{name}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                {loading ? <LoadingOverlay /> : <SurveyTable data={data} columns={columns} />}
+                {loading ? <LoadingOverlay /> : <SurveyTable data={filteredData} columns={columns} />}
             </div>
             <EditSurveyModal
                 show={showModal}

@@ -2,7 +2,7 @@ import React from "react";
 
 import './App.css';
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import AddSurvey from './pages/addSurvey';
 import Success from './pages/success';
@@ -17,6 +17,7 @@ function App() {
         <Header />
         <main className="flex-grow-1">
           <Routes>
+            <Route path="/" element={<Navigate to="/surveylist" replace />} />
             <Route path="/addsurvey" element={<AddSurvey />} />
             <Route path="/success/:id" element={<Success />} />
             <Route path="/surveylist" element={<SurveyList />} />

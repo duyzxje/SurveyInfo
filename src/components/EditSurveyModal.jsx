@@ -237,8 +237,8 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Tổng chi phí</span>
                                     <input
                                         className="form-control fs-4"
-                                        name="totalCost"
-                                        value={form.totalCost || ""}
+                                        name="cost"
+                                        value={form.cost || ""}
                                         onChange={handleChange}
                                     />
                                 </div>

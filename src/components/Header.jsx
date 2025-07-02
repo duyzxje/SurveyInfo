@@ -17,7 +17,7 @@ function Header() {
                     <div className="collapse navbar-collapse" id="cepNav">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link fs-5" to="/survey">Thực hiện khảo sát</Link>
+                                <Link className="nav-link fs-5" to="/addsurvey">Thực hiện khảo sát</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link fs-5" to="/SurveyList">Xem Khảo sát</Link>
