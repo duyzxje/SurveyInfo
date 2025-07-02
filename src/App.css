@@ -1,3 +1,15 @@
 .App {
   text-align: center;
 }
+
+.header-color {
+  color: rgb(0, 51, 153);
+}
+
+.bg-header {
+  background-color: rgb(0, 51, 153);
+}
+
+.bg-footer {
+  background-color: rgb(0, 39, 118);
+}

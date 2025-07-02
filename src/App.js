@@ -4,8 +4,9 @@ import './App.css';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Survey from './pages/surveyInformation';
+import AddSurvey from './pages/addSurvey';
 import Success from './pages/success';
+import SurveyList from './pages/surveyList';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -16,8 +17,9 @@ function App() {
         <Header />
         <main className="flex-grow-1">
           <Routes>
-            <Route path="/" element={<Survey />} />
+            <Route path="/addsurvey" element={<AddSurvey />} />
             <Route path="/success/:id" element={<Success />} />
+            <Route path="/surveylist" element={<SurveyList />} />
           </Routes>
         </main>
         <Footer />
