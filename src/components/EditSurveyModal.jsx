@@ -19,6 +19,12 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
         }
     }, [show]);
 
+    // Format number with thousand separators
+    const formatNumber = (value) => {
+        if (!value) return '';
+        return Number(value).toLocaleString('en-US');
+    };
+
     // Khi chọn tỉnh
     const handleProvinceChange = (e) => {
         const code = e.target.value;
@@ -47,6 +53,12 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Handle money input fields
+    const handleMoneyInput = (e) => {
+        const raw = e.target.value.replace(/\D/g, '');
+        setForm({ ...form, [e.target.name]: raw });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(form);
@@ -54,7 +66,7 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
 
     return (
         <div className="modal show" style={{ display: "block", background: "#00000080" }}>
-            <div className="modal-dialog">
+            <div className="modal-dialog" style={{ top: "20px" }}>
                 <form onSubmit={handleSubmit}>
                     <div className="modal-content">
                         <div className="modal-header">
@@ -113,21 +125,6 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6 mb-4">
-                                    <span className="fw-bold mt-4 fs-5 text-secondary">Quận/Huyện</span>
-                                    <select
-                                        className="form-select fs-4"
-                                        name="districtId"
-                                        value={form.districtId || ""}
-                                        onChange={handleDistrictChange}
-                                        disabled={!districts.length}
-                                    >
-                                        <option value="">-- Chọn Quận/Huyện --</option>
-                                        {districts.map((d) => (
-                                            <option key={d.code} value={d.code}>{d.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Phường/Xã</span>
                                     <select
                                         className="form-select fs-4"
@@ -142,8 +139,7 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                         ))}
                                     </select>
                                 </div>
-                            </div>
-                            <div className="row">
+
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Địa chỉ</span>
                                     <input
@@ -153,6 +149,9 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                         onChange={handleChange}
                                     />
                                 </div>
+                            </div>
+                            <div className="row">
+
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Mục đích vay</span>
                                     <select
@@ -162,9 +161,18 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                         onChange={handleChange}
                                     />
                                 </div>
+                                <div className="col-md-6 mb-4">
+                                    <span className="fw-bold mt-4 fs-5 text-secondary">Số tiền cần cho mục đích</span>
+                                    <input
+                                        className="form-control fs-4 text-end"
+                                        name="amountPurpose"
+                                        value={formatNumber(form.amountPurpose) || ""}
+                                        onChange={handleMoneyInput}
+                                    />
+                                </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-6 mb-4">
+                                <div className="mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Mô tả</span>
                                     <input
                                         className="form-control fs-4"
@@ -173,33 +181,25 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                         onChange={handleChange}
                                     />
                                 </div>
-                                <div className="col-md-6 mb-4">
-                                    <span className="fw-bold mt-4 fs-5 text-secondary">Số tiền cần cho mục đích</span>
-                                    <input
-                                        className="form-control fs-4"
-                                        name="amountPurpose"
-                                        value={form.amountPurpose || ""}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+
                             </div>
                             <div className="row">
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Số tiền đã có</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="amountHave"
-                                        value={form.amountHave || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.amountHave) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Số tiền đề nghị vay</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="amountSuggest"
-                                        value={form.amountSuggest || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.amountSuggest) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                             </div>
@@ -207,19 +207,19 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Tiết kiệm tự nguyện</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="voluntarySaving"
-                                        value={form.voluntarySaving || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.voluntarySaving) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Thu nhập khách hàng</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="incomeSalary"
-                                        value={form.incomeSalary || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.incomeSalary) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                             </div>
@@ -227,19 +227,19 @@ const EditSurveyModal = ({ show, survey, onClose, onSave }) => {
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Thu nhập khác</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="incomeOther"
-                                        value={form.incomeOther || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.incomeOther) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-4">
                                     <span className="fw-bold mt-4 fs-5 text-secondary">Tổng chi phí</span>
                                     <input
-                                        className="form-control fs-4"
+                                        className="form-control fs-4 text-end"
                                         name="cost"
-                                        value={form.cost || ""}
-                                        onChange={handleChange}
+                                        value={formatNumber(form.cost) || ""}
+                                        onChange={handleMoneyInput}
                                     />
                                 </div>
                             </div>

@@ -172,30 +172,31 @@ function AddSurvey() {
                 <div className="d-flex justify-content-center mb-4 header-color">
                     <h1><strong>THÔNG TIN KHẢO SÁT</strong></h1>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="border rounded mb-4 shadow">
                     <div className="form-group p-4 mb-4 rounded border-primary shadow">
                         <h2 className="mb-4 text-primary">Thông tin cá nhân</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="identify">CCCD:</label>
-                                <input type="number" min={0} className="form-control fs-4 mb-2 border rounded border-primary " id="identify" value={formData.identify}
+
+                                <input type="number" min={0} className={`form-control fs-4 mb-2 border rounded ${identifyError ? 'border-danger' : 'border-success'}`} id="identify" value={formData.identify}
                                     onChange={handleIdentifyChange} required />
                                 {identifyError && <small className="text-danger fs-5">{identifyError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="fullname">Họ và tên:</label>
-                                <input type="text" className="form-control fs-4 mb-2border rounded border-primary" id="fullname" value={formData.fullname} onChange={handleChange} required />
+                                <input type="text" className="form-control fs-4 mb-2border rounded border-success" id="fullname" value={formData.fullname} onChange={handleChange} required />
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="phone">Số điện thoại:</label>
-                                <input type="number" min={0} className="form-control fs-4 mb-2border rounded border-primary" id="phone" value={formData.phone}
+                                <input type="number" min={0} className={`form-control fs-4 mb-2border rounded ${phoneError ? 'border-danger' : 'border-success'}`} id="phone" value={formData.phone}
                                     onChange={handlePhoneChange} required />
                                 {phoneError && <small className="text-danger fs-5">{phoneError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="provinceId">Tỉnh/Thành Phố:</label>
-                                <select id="provinceId" className="form-control fs-4 border rounded border-primary" value={formData.provinceId} onChange={handleProvinceChange} required>
-                                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                                <select id="provinceId" className="form-control fs-4 border rounded border-success" value={formData.provinceId} onChange={handleProvinceChange} required>
+                                    <option value="" className="">-- Chọn Tỉnh/Thành phố --</option>
                                     {provinces.map((p) => (
                                         <option key={p.code} value={p.code}>{p.name}</option>
                                     ))}
@@ -203,7 +204,7 @@ function AddSurvey() {
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="districtId">Quận/Huyện:</label>
-                                <select id="districtId" className="form-control fs-4 border rounded border-primary" value={formData.districtId} onChange={handleDistrictChange} required disabled={!districts.length} >
+                                <select id="districtId" className="form-control fs-4 border rounded border-success" value={formData.districtId} onChange={handleDistrictChange} required disabled={!districts.length} >
                                     <option value="">-- Chọn Quận/Huyện --</option>
                                     {districts.map((d) => (
                                         <option key={d.code} value={d.code}>{d.name}</option>
@@ -212,7 +213,7 @@ function AddSurvey() {
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="wardId">Xã/Phường/Thị trấn:</label>
-                                <select id="wardId" className="form-control fs-4 border rounded border-primary" value={formData.wardId} onChange={handleWardChange} required disabled={!wards.length}>
+                                <select id="wardId" className="form-control fs-4 border rounded border-success" value={formData.wardId} onChange={handleWardChange} required disabled={!wards.length}>
                                     <option value="">-- Chọn Xã/Phường/Thị trấn --</option>
                                     {wards.map((w) => (
                                         <option key={w.code} value={w.code}>{w.name}</option>
@@ -221,16 +222,16 @@ function AddSurvey() {
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="address">Địa chỉ:</label>
-                                <input type="text" className="form-control fs-4 mb-2border rounded border-primary" id="address" value={formData.address} onChange={handleChange} required />
+                                <input type="text" className="form-control fs-4 mb-2border rounded border-success" id="address" value={formData.address} onChange={handleChange} required />
                             </div>
                         </div>
                     </div>
-                    <div className="form-group p-4 mb-4 rounded border-primary shadow">
+                    <div className="form-group p-4 mb-4 rounded border-primary">
                         <h2 className="mb-4 text-primary">Thông tin khảo sát</h2>
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="purposeLoan">Mục đích vay:</label>
-                                <select id="purposeLoan" className="form-control fs-4 border rounded border-primary" value={formData.purposeLoan} onChange={handleChange} required>
+                                <select id="purposeLoan" className="form-control fs-4 border rounded border-success" value={formData.purposeLoan} onChange={handleChange} required>
                                     <option value="">-- Chọn mục đích vay --</option>
                                     <option value={1}>Mua nhà</option>
                                     <option value={2}>Mua xe</option>
@@ -240,61 +241,61 @@ function AddSurvey() {
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="description">Mô tả:</label>
-                                <input type="text" className="form-control fs-4 mb-2border rounded border-primary" id="description" value={formData.description} onChange={handleChange} required />
+                                <input type="text" className="form-control fs-4 mb-2border rounded border-success" id="description" value={formData.description} onChange={handleChange} required />
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="amountPurpose">Số tiền cần cho mục đích:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="amountPurpose" value={formatNumber(formData.amountPurpose)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${AmountSuggestError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountPurpose" value={formatNumber(formData.amountPurpose)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="amountHave">Số tiền đã có:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="amountHave" value={formatNumber(formData.amountHave)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${AmountSuggestError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountHave" value={formatNumber(formData.amountHave)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="amountSuggest">Số tiền đề nghị vay:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="amountSuggest" value={formatNumber(formData.amountSuggest)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${AmountSuggestError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="amountSuggest" value={formatNumber(formData.amountSuggest)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {AmountSuggestError && <small className="text-danger fs-5">{AmountSuggestError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="voluntarySaving">Tiết kiệm tự nguyện:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="voluntarySaving" value={formatNumber(formData.voluntarySaving)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${VoluntarySavingError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="voluntarySaving" value={formatNumber(formData.voluntarySaving)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {VoluntarySavingError && <small className="text-danger fs-5">{VoluntarySavingError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="incomeSalary">Thu nhập khách hàng:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="incomeSalary" value={formatNumber(formData.incomeSalary)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${IncomeError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="incomeSalary" value={formatNumber(formData.incomeSalary)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="incomeOther">Thu nhập khác:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="incomeOther" value={formatNumber(formData.incomeOther)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${IncomeError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="incomeOther" value={formatNumber(formData.incomeOther)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="cost">Tổng chi phí:</label>
-                                <div className="input-group">
-                                    <input type="text" min="0" className="form-control fs-4 text-end border rounded border-primary" id="cost" value={formatNumber(formData.cost)} onChange={handleMoneyInput} required />
-                                    <span className="input-group-text">₫</span>
+                                <div className={`input-group fs-4 text-end border rounded ${IncomeError ? 'border-danger' : 'border-success'}`}>
+                                    <input type="text" min="0" className="form-control fs-4 text-end" id="cost" value={formatNumber(formData.cost)} onChange={handleMoneyInput} required />
+                                    <span className="input-group-text bg-white">₫</span>
                                 </div>
                                 {IncomeError && <small className="text-danger fs-5">{IncomeError}</small>}
                             </div>
