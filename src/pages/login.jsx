@@ -21,19 +21,13 @@ function Login() {
         setIsLoading(true);
 
         try {
-            // In a real app, this would be an API call to a backend authentication service
-            // For this demo, we'll just check against hardcoded credentials
-            if (username === 'admin' && password === 'admin123') {
-                // Use the login function from AuthContext
-                login({ username, role: 'admin' });
+            // Call the login function from AuthContext which will make API call
+            await login(username, password);
 
-                // Navigate to the page user was trying to access or home page
-                navigate(from, { replace: true });
-            } else {
-                setError('Tên đăng nhập hoặc mật khẩu không đúng!');
-            }
+            // Navigate to the page user was trying to access or home page
+            navigate(from, { replace: true });
         } catch (err) {
-            setError('Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại sau.');
+            setError(err.message || 'Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại sau.');
             console.error('Login error:', err);
         } finally {
             setIsLoading(false);

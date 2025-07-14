@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authService } from '../services/authService';
 
 // Create context
 const AuthContext = createContext(null);
@@ -7,31 +8,63 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Function to login
-    const login = (userData) => {
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('user', JSON.stringify(userData));
-        setIsAuthenticated(true);
-        setUser(userData);
+    const login = async (username, password) => {
+        try {
+            const response = await authService.login(username, password);
+
+            // Store token and user data
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('user', JSON.stringify(response.user));
+
+            setToken(response.token);
+            setIsAuthenticated(true);
+            setUser(response.user);
+
+            return response;
+        } catch (error) {
+            throw error;
+        }
     };
 
     // Function to logout
     const logout = () => {
+        localStorage.removeItem('token');
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('user');
+        setToken(null);
         setIsAuthenticated(false);
         setUser(null);
+    };
+
+    // Function to get user profile
+    const getProfile = async () => {
+        try {
+            const response = await authService.getProfile(token);
+            setUser(response.user);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            return response;
+        } catch (error) {
+            // If token is invalid, logout
+            logout();
+            throw error;
+        }
     };
 
     // Check authentication status on mount
     useEffect(() => {
         const checkAuth = () => {
+            const storedToken = localStorage.getItem('token');
             const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-            setIsAuthenticated(authStatus);
 
-            if (authStatus) {
+            if (authStatus && storedToken) {
+                setIsAuthenticated(true);
+                setToken(storedToken);
+
                 try {
                     const userData = JSON.parse(localStorage.getItem('user'));
                     setUser(userData);
@@ -39,6 +72,8 @@ export const AuthProvider = ({ children }) => {
                     setUser(null);
                 }
             } else {
+                setIsAuthenticated(false);
+                setToken(null);
                 setUser(null);
             }
             setLoading(false);
@@ -58,8 +93,10 @@ export const AuthProvider = ({ children }) => {
     const value = {
         isAuthenticated,
         user,
+        token,
         login,
         logout,
+        getProfile,
         loading
     };
 
