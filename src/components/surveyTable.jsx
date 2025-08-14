@@ -70,7 +70,7 @@ function SurveyTable({ data, columns, selectedSurveys, onSelectSurvey, onSelectA
 
     // Handle input change when editing
     const handleInputChange = (e, key) => {
-        const moneyFields = ['amountPurpose', 'amountHave', 'amountSuggest', 'voluntarySaving', 'incomeSalary', 'incomeOther', 'cost'];
+        const moneyFields = ['PurposeAmount', 'HaveAmount', 'LoanAmountSuggest', 'VoluntaryDepositAmount'];
 
         if (moneyFields.includes(key)) {
             // For money fields, remove non-numeric characters
@@ -99,7 +99,7 @@ function SurveyTable({ data, columns, selectedSurveys, onSelectSurvey, onSelectA
         // If this row is being edited
         if (isEditing && editingRow === rowIndex) {
             // Special handling for select inputs (purposeLoan)
-            if (columnId === 'purposeLoan') {
+            if (columnId === 'LoanPurposeName') {
                 return (
                     <select
                         className="form-control"
@@ -115,7 +115,7 @@ function SurveyTable({ data, columns, selectedSurveys, onSelectSurvey, onSelectA
             }
 
             // Special handling for monetary values
-            const moneyFields = ['amountPurpose', 'amountHave', 'amountSuggest', 'voluntarySaving', 'incomeSalary', 'incomeOther', 'cost'];
+            const moneyFields = ['PurposeAmount', 'HaveAmount', 'LoanAmountSuggest', 'VoluntaryDepositAmount'];
             if (moneyFields.includes(columnId)) {
                 return (
                     <input

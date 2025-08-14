@@ -1,29 +1,77 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import LoadingOverlay from "../components/loadingOverlay";
+import { API_BASE_URL } from "../config/api";
+import { useAuth } from "../contexts/AuthContext";
 function AddSurvey() {
     const navigate = useNavigate();
+    const { token } = useAuth();
+
+    // Danh sách mục đích vay có sẵn
+    const loanPurposes = [
+        "Mua nhà",
+        "Mua xe",
+        "Mua sắm",
+        "Đầu tư",
+        "Sửa nhà",
+        "Chi tiêu cá nhân",
+        "Đóng học phí",
+        "Khám chữa bệnh"
+    ];
 
     const [formData, setFormData] = useState({
-        identify: "",
-        fullname: "",
-        phone: "",
-        provinceId: "",
-        wardId: "",
-        address: "",
-        purposeLoan: "",
-        description: "",
-        amountPurpose: "",
-        amountHave: "",
-        amountSuggest: "",
-        voluntarySaving: "",
-        incomeSalary: "",
-        incomeOther: "",
-        cost: "",
-        districtId: ""
-
+        identify: '',
+        fullname: '',
+        dateOfBirth: '',
+        phone: '',
+        provinceId: '',
+        districtId: '',
+        wardId: '',
+        address: '',
+        purposeLoan: '',
+        description: '',
+        amountPurpose: '',
+        amountHave: '',
+        amountSuggest: '',
+        voluntarySaving: '',
+        incomeSalary: '',
+        incomeOther: '',
+        cost: '',
     });
+
+    // State để kiểm soát hiển thị danh sách gợi ý cho mục đích vay
+    const [showPurposeSuggestions, setShowPurposeSuggestions] = useState(false);
+    const [filteredPurposes, setFilteredPurposes] = useState([]);
+
+    // Hàm xử lý khi người dùng nhập vào mục đích vay
+    const handlePurposeInputChange = (e) => {
+        const value = e.target.value;
+        setFormData({ ...formData, LoanPurposeName: value });
+
+        // Lọc danh sách gợi ý dựa trên giá trị đã nhập
+        if (value.trim() === '') {
+            setFilteredPurposes(loanPurposes);
+        } else {
+            const filtered = loanPurposes.filter(purpose =>
+                purpose.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredPurposes(filtered);
+        }
+
+        // Hiển thị danh sách gợi ý
+        setShowPurposeSuggestions(true);
+    };
+
+    // Hàm xử lý khi người dùng chọn một mục đích vay từ danh sách
+    const selectPurpose = (purpose) => {
+        setFormData({ ...formData, LoanPurposeName: purpose });
+        setShowPurposeSuggestions(false);
+    };
+
+    // Khởi tạo danh sách gợi ý khi component được tạo
+    useEffect(() => {
+        setFilteredPurposes(loanPurposes);
+    }, []);
 
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -33,8 +81,9 @@ function AddSurvey() {
     useEffect(() => {
         const fetchProvinces = async () => {
             try {
-                const res = await axios.get("https://provinces.open-api.vn/api/?depth=3");
-                setProvinces(res.data);
+                const response = await fetch("https://provinces.open-api.vn/api/?depth=3");
+                const data = await response.json();
+                setProvinces(data);
             } catch (err) {
                 console.error("Cannot fetch VN provinces", err);
             }
@@ -47,19 +96,19 @@ function AddSurvey() {
         const province = provinces.find((p) => p.code.toString() === code);
         setDistricts(province ? province.districts : []);
         setWards([]);
-        setFormData({ ...formData, provinceId: code, districtId: "", wardId: "" });
+        setFormData({ ...formData, PermanentProvinceId: code, PermanentDistrictId: "", PermanentWardId: "" });
     };
 
     const handleDistrictChange = (e) => {
         const code = e.target.value;
         const district = districts.find((d) => d.code.toString() === code);
         setWards(district ? district.wards : []);
-        setFormData({ ...formData, districtId: code, wardId: "" });
+        setFormData({ ...formData, PermanentDistrictId: code, PermanentWardId: "" });
     };
 
     const handleWardChange = (e) => {
         const code = e.target.value;
-        setFormData({ ...formData, wardId: code });
+        setFormData({ ...formData, PermanentWardId: code });
     };
 
     const handleChange = (e) => {
@@ -75,8 +124,42 @@ function AddSurvey() {
         }
 
         setIsSubmitting(true);
+
         try {
-            const res = await axios.post("http://localhost:3001/api/surveys", formData);
+            // Chuẩn bị dữ liệu cho API
+            const preparedData = {
+                IdentifyNumber: formData.identify,
+                Fullname: formData.fullname,
+                DateOfBirth: formData.dateOfBirth,
+                Phone: formData.phone,
+                PermanentProvinceId: formData.provinceId,
+                PermanentDistrictId: formData.districtId,
+                PermanentWardId: formData.wardId,
+                PermanentAddress: formData.address,
+                LoanPurposeName: formData.purposeLoan,
+                Description: formData.description,
+                PurposeAmount: formData.amountPurpose.replace(/,/g, ''),
+                HaveAmount: formData.amountHave.replace(/,/g, ''),
+                LoanAmountSuggest: formData.amountSuggest.replace(/,/g, ''),
+                VoluntaryDepositAmount: formData.voluntarySaving.replace(/,/g, ''),
+                IncomeSalary: formData.incomeSalary.replace(/,/g, ''),
+                IncomeOther: formData.incomeOther.replace(/,/g, ''),
+                Cost: formData.cost.replace(/,/g, '')
+            };
+            const response = await fetch(`${API_BASE_URL}/Loans/GetCustomerForCreateDocument`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(preparedData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Không thể gửi khảo sát');
+            }
+
+            const res = await response.json();
             alert("Form submitted successfully!");
             navigate(`/success/${res.data.id}`);
             console.log(res.data);
@@ -188,6 +271,10 @@ function AddSurvey() {
                                 <input type="text" className="form-control fs-4 mb-2border rounded border-success" id="fullname" value={formData.fullname} onChange={handleChange} required />
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
+                                <label className="fs-4 text-muted" htmlFor="dateOfBirth">Ngày sinh:</label>
+                                <input type="date" className="form-control fs-4 mb-2border rounded border-success" id="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
+                            </div>
+                            <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="phone">Số điện thoại:</label>
                                 <input type="number" min={0} className={`form-control fs-4 mb-2border rounded ${phoneError ? 'border-danger' : 'border-success'}`} id="phone" value={formData.phone}
                                     onChange={handlePhoneChange} required />
@@ -231,13 +318,36 @@ function AddSurvey() {
                         <div className="row">
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="purposeLoan">Mục đích vay:</label>
-                                <select id="purposeLoan" className="form-control fs-4 border rounded border-success" value={formData.purposeLoan} onChange={handleChange} required>
-                                    <option value="">-- Chọn mục đích vay --</option>
-                                    <option value={1}>Mua nhà</option>
-                                    <option value={2}>Mua xe</option>
-                                    <option value={3}>Mua sắm</option>
-                                    <option value={4}>Đầu tư</option>
-                                </select>
+                                <div className="position-relative">
+                                    <input
+                                        type="text"
+                                        className="form-control fs-4 border rounded border-success"
+                                        id="purposeLoan"
+                                        value={formData.purposeLoan}
+                                        onChange={handlePurposeInputChange}
+                                        onFocus={() => setShowPurposeSuggestions(true)}
+                                        onBlur={() => {
+                                            // Delay để cho phép click vào suggestion hoạt động
+                                            setTimeout(() => setShowPurposeSuggestions(false), 200);
+                                        }}
+                                        placeholder="Nhập hoặc chọn mục đích vay"
+                                        required
+                                    />
+                                    {showPurposeSuggestions && filteredPurposes.length > 0 && (
+                                        <div className="position-absolute w-100 bg-white border rounded shadow-sm mt-1 z-3" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                            {filteredPurposes.map((purpose, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="p-2 fs-4 border-bottom cursor-pointer hover-bg-light"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onMouseDown={() => selectPurpose(purpose)}
+                                                >
+                                                    {purpose}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4 mb-3">
                                 <label className="fs-4 text-muted" htmlFor="description">Mô tả:</label>

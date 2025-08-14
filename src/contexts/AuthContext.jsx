@@ -14,18 +14,26 @@ export const AuthProvider = ({ children }) => {
     // Function to login
     const login = async (username, password) => {
         try {
-            const response = await authService.login(username, password);
+            const { token: loginToken } = await authService.login(username, password);
 
-            // Store token and user data
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('token', loginToken);
             localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('user', JSON.stringify(response.user));
 
-            setToken(response.token);
+            setToken(loginToken);
             setIsAuthenticated(true);
-            setUser(response.user);
 
-            return response;
+            // Fetch user profile after successful login
+            try {
+                const profile = await authService.getProfile(loginToken);
+                setUser(profile?.user || profile);
+                localStorage.setItem('user', JSON.stringify(profile?.user || profile));
+            } catch (profileError) {
+                // If profile fetch fails, still keep the token but clear user
+                setUser(null);
+                localStorage.removeItem('user');
+            }
+
+            return { token: loginToken };
         } catch (error) {
             throw error;
         }

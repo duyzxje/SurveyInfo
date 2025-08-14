@@ -15,14 +15,19 @@ const SurveyDetail = ({ survey, onClose, locationMap }) => {
     };
 
     // Format loan purpose
-    const formatLoanPurpose = (purposeId) => {
-        const purposes = {
-            "1": "Mua nhà",
-            "2": "Mua xe",
-            "3": "Mua sắm",
-            "4": "Đầu tư"
-        };
-        return purposes[purposeId] || purposeId;
+    const formatLoanPurpose = (purposeValue) => {
+        // Nếu purposeValue là số, chuyển thành văn bản tương ứng
+        if (!isNaN(purposeValue)) {
+            const purposes = {
+                "1": "Mua nhà",
+                "2": "Mua xe",
+                "3": "Mua sắm",
+                "4": "Đầu tư"
+            };
+            return purposes[purposeValue] || purposeValue;
+        }
+        // Nếu đã là văn bản, trả về nguyên bản
+        return purposeValue;
     };
 
     // Format number with thousand separators
@@ -46,25 +51,28 @@ const SurveyDetail = ({ survey, onClose, locationMap }) => {
                                     <h4 className="text-primary border-bottom pb-2">Thông tin cá nhân</h4>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>CCCD:</strong> {survey.identify}</p>
+                                    <p><strong>CCCD:</strong> {survey.IdentifyNumber}</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Họ tên:</strong> {survey.fullname}</p>
+                                    <p><strong>Họ tên:</strong> {survey.Fullname}</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Số điện thoại:</strong> {survey.phone}</p>
+                                    <p><strong>Ngày sinh:</strong> {survey.DateOfBirth}</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Tỉnh/Thành phố:</strong> {locationMap?.provinces[survey.provinceId] || survey.provinceId}</p>
+                                    <p><strong>Số điện thoại:</strong> {survey.Phone}</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Quận/Huyện:</strong> {locationMap?.districts[survey.districtId] || survey.districtId}</p>
+                                    <p><strong>Tỉnh/Thành phố:</strong> {locationMap?.provinces[survey.PermanentProvinceId] || survey.PermanentProvinceId}</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Xã/Phường:</strong> {locationMap?.wards[survey.wardId] || survey.wardId}</p>
+                                    <p><strong>Quận/Huyện:</strong> {locationMap?.districts[survey.PermanentDistrictId] || survey.PermanentDistrictId}</p>
+                                </div>
+                                <div className="col-md-4 fs-5">
+                                    <p><strong>Xã/Phường:</strong> {locationMap?.wards[survey.PermanentWardId] || survey.PermanentWardId}</p>
                                 </div>
                                 <div className="col-md-12 fs-5">
-                                    <p><strong>Địa chỉ:</strong> {survey.address}</p>
+                                    <p><strong>Địa chỉ:</strong> {survey.PermanentAddress}</p>
                                 </div>
                             </div>
 
@@ -73,22 +81,22 @@ const SurveyDetail = ({ survey, onClose, locationMap }) => {
                                     <h4 className="text-primary border-bottom pb-2">Thông tin khoản vay</h4>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Mục đích vay:</strong> {formatLoanPurpose(survey.purposeLoan)}</p>
+                                    <p><strong>Mục đích vay:</strong> {survey.LoanPurposeName}</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Mô tả:</strong> {survey.description}</p>
+                                    <p><strong>Mô tả:</strong> {survey.Description}</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Số tiền cần cho mục đích:</strong> {formatNumber(survey.amountPurpose)} ₫</p>
+                                    <p><strong>Số tiền cần cho mục đích:</strong> {formatNumber(survey.PurposeAmount)} ₫</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Số tiền đã có:</strong> {formatNumber(survey.amountHave)} ₫</p>
+                                    <p><strong>Số tiền đã có:</strong> {formatNumber(survey.HaveAmount)} ₫</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Số tiền đề nghị vay:</strong> {formatNumber(survey.amountSuggest)} ₫</p>
+                                    <p><strong>Số tiền đề nghị vay:</strong> {formatNumber(survey.LoanAmountSuggest)} ₫</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Tiết kiệm tự nguyện:</strong> {formatNumber(survey.voluntarySaving)} ₫</p>
+                                    <p><strong>Tiết kiệm tự nguyện:</strong> {formatNumber(survey.VoluntaryDepositAmount)} ₫</p>
                                 </div>
                             </div>
 
@@ -97,13 +105,13 @@ const SurveyDetail = ({ survey, onClose, locationMap }) => {
                                     <h4 className="text-primary border-bottom pb-2">Thông tin tài chính</h4>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Thu nhập khách hàng:</strong> {formatNumber(survey.incomeSalary)} ₫</p>
+                                    <p><strong>Thu nhập khách hàng:</strong> {formatNumber(survey.IncomeSalary)} ₫</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Thu nhập khác:</strong> {formatNumber(survey.incomeOther)} ₫</p>
+                                    <p><strong>Thu nhập khác:</strong> {formatNumber(survey.IncomeOther)} ₫</p>
                                 </div>
                                 <div className="col-md-4 fs-5">
-                                    <p><strong>Tổng chi phí:</strong> {formatNumber(survey.cost)} ₫</p>
+                                    <p><strong>Tổng chi phí:</strong> {formatNumber(survey.Cost)} ₫</p>
                                 </div>
                             </div>
 
@@ -112,10 +120,10 @@ const SurveyDetail = ({ survey, onClose, locationMap }) => {
                                     <h4 className="text-primary border-bottom pb-2">Thông tin hệ thống</h4>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Ngày tạo:</strong> {formatDate(survey.createdAt)}</p>
+                                    <p><strong>Ngày tạo:</strong> {formatDate(survey.CreatedAt)}</p>
                                 </div>
                                 <div className="col-md-6 fs-5">
-                                    <p><strong>Cập nhật lần cuối:</strong> {formatDate(survey.updatedAt)}</p>
+                                    <p><strong>Cập nhật lần cuối:</strong> {formatDate(survey.UpdatedAt)}</p>
                                 </div>
                                 {survey.listName && (
                                     <div className="col-md-6 fs-5">

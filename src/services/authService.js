@@ -1,10 +1,10 @@
-const API_BASE_URL = 'http://localhost:3001/api';
+import { API_BASE_URL } from '../config/api';
 
 export const authService = {
     // Login user
     async login(username, password) {
         try {
-            const response = await fetch(`${API_BASE_URL}/users/login`, {
+            const response = await fetch(`${API_BASE_URL}/Authen/AuthenCustomer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -18,12 +18,18 @@ export const authService = {
                 throw new Error(data.message || 'Đăng nhập thất bại');
             }
 
-            return data;
+            const token = data.Token || data.token;
+            if (!token) {
+                throw new Error('Không nhận được token từ máy chủ');
+            }
+
+            return { token };
         } catch (error) {
             throw error;
         }
     },
 
+    /* Các API dưới đây chưa được triển khai trên backend, comment lại để sử dụng sau
     // Register user
     async register(userData) {
         try {
@@ -45,12 +51,12 @@ export const authService = {
         } catch (error) {
             throw error;
         }
-    },
+    },*/
 
     // Get user profile
     async getProfile(token) {
         try {
-            const response = await fetch(`${API_BASE_URL}/users/profile`, {
+            const response = await fetch(`${API_BASE_URL}/User/MyInfo`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -70,6 +76,7 @@ export const authService = {
         }
     },
 
+    /* Các API dưới đây chưa được triển khai trên backend, comment lại để sử dụng sau
     // Update user profile
     async updateProfile(token, profileData) {
         try {
@@ -117,4 +124,5 @@ export const authService = {
             throw error;
         }
     }
+    */
 }; 
